@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link type="text/css" href="mystyle.css">
+    <title>Voting Platform || Smart Contract </title>
+  </head>
+
+  <body>
+
+    <div class="split left">
+      <div class="centered">
+        <h2>E-Voting Platform</h2>
+
+          <h3>Register Candidates</h3>
+            <input name="Candidate_Name">
+            <button id="Candidate_Button" onclick="App.Register_Candidate()">Register Candidate</button>
+
+          <h3>Caste Vote</h3>
+            <input name="Candidate_Address">
+            <button id="Vote_Button" onclick="App.Vote()">Vote</button>
+
+          <br><br>
+          <button id="Temp_Button" onclick="App.Temp()">Temp</button>
+
+          <!-- Add Css -->
+          <br><br><br><br>
+          <text>Total Votes</text>
+
+      </div>
+    </div>
+
+    <div class="split right">
+      <div class="centered">
+        <h2>Register Candidates List</h2>
+
+      </div>
+    </div>
+
+    <script src="index.js"></script>
+  </body>
+</html>

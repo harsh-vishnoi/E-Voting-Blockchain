@@ -1,0 +1,22 @@
+body {
+  font-family: Arial;
+  color: black;
+}
+
+.split {
+  height: 100%;
+  width: 50%;
+  position: fixed;
+}
+
+.centered {
+  text-align: center;
+}
+
+.left {
+  left: 0;
+}
+
+.right {
+  right: 0;
+}
