@@ -6,6 +6,9 @@ contract Vote_Contract {
     bool public Voting_End = true;
     bool public Stop_party_registeration = false;
 
+    event Registered_event(string name, address add);
+    event CommissionerErr();
+
     struct Candidate{
         uint Votes;
         string Party;
@@ -37,21 +40,18 @@ contract Vote_Contract {
         }
     }
 
-    function Register_Candidate(string memory Party) public PartyRegistration_allowed returns (string memory) {
+    function Register_Candidate(string memory Party) public PartyRegistration_allowed {
 
-        if(msg.sender != Commissioner){
+        if(msg.sender == Commissioner){
             Candidate storage x = Registered[msg.sender];
-            if(x.Registered == false){
-                    x.Votes = 0;
-                    x.Party = Party;
-                    x.Address = msg.sender;
-                    x.Registered = true;
-                return "Registered Successfully";
-            }else{
-                return "You are already Registered";
-            }
+            require(x.Registered == false);
+            x.Votes = 0;
+            x.Party = Party;
+            x.Address = msg.sender;
+            x.Registered = true;
+            emit Registered_event(Party, msg.sender);
         }else{
-            return "Change Address ,You are Commissioner right now";
+            emit CommissionerErr();
         }
     }
 
@@ -78,15 +78,13 @@ contract Vote_Contract {
     }
 
     function End_voting() public {
-        if(msg.sender == Commissioner){
-            Voting_End = true;
-        }
+        require(msg.sender == Commissioner);
+        Voting_End = true;
     }
 
     function End_Party_Registration() internal {
-        if(msg.sender == Commissioner){
-            Stop_party_registeration = true;
-        }
+        require(msg.sender == Commissioner);
+        Stop_party_registeration = true;
     }
 
 }

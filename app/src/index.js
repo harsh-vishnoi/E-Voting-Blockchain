@@ -30,13 +30,38 @@ window.App = {
         Owner = accounts[0];
 
         Vote_Contract.new({from: Owner, gas: 3000000}).then(instance => {
-          Vote_Contract_Instance = instance;
-          console.log(instance);
-          console.log("Owner -> ", Owner);
-        })
+            Vote_Contract_Instance = instance;
+            console.log(Vote_Contract_Instance);
+            console.log("Owner -> ", Owner);
+          })
         });
     },
-    
+
+    Register_Button : async function() {
+      var candidate_Name = prompt("Name of the Candidate");
+      console.log("Candidate Name : ", candidate_Name);
+      Vote_Contract_Instance.Register_Candidate(candidate_Name, {from: Owner}).then(tx => {
+        console.log(tx);
+
+        if(tx.logs[0].event == "CommissionerErr"){
+            console.log("Oops! Wrong Address. Commissioner can not register as an Candidate");
+        }else if(tx.logs[0].event == "Registered_event"){
+            console.log("Candidate has been Successfully registered");
+            console.log("Candidate Name ------", tx.logs[0].args.name);
+            console.log("Candidate Address ---", tx.logs[0].args.add);
+            $("#theList").append("<li>" + tx.logs[0].args.name + "</li>");
+            $("#select_tag").append("<option value = " + tx.logs[0].args.add + ">" + tx.logs[0].args.name + " </option>)");
+        }
+      })
+    },
+
+    Vote : async function() {
+        var candidate_add = prompt("Address of the Candidate");
+        console.log("Candidate Address : ", candidate_add);
+        Vote_Contract_Instance.Register_Vote(candidate_add, {from: Owner}).then(tx => {
+          console.log(tx);
+        });
+    }
 };
 
 window.addEventListener("load", function() {
