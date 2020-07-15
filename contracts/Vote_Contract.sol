@@ -7,7 +7,13 @@ contract Vote_Contract {
     bool public Stop_party_registeration = false;
 
     event Registered_event(string name, address add);
-    event CommissionerErr();
+    event Voted(address add);
+    event Voting_stopped();
+    event Voting_started();
+    event Registration_stopped();
+    event Registration_started();
+    event Winner();
+    event Draw();
 
     struct Candidate{
         uint Votes;
@@ -25,66 +31,83 @@ contract Vote_Contract {
         Commissioner = msg.sender;
     }
 
+    address[] public candidate;
     mapping (address => Candidate) public Registered;
     mapping (address => Voter) public Voters_registered;
 
-    modifier Voting_allowed(){
-        if(Voting_End == false){
-            _;
-        }
+    function Register_Candidate(string memory Party) public {
+        require(msg.sender != Commissioner);
+        require(Stop_party_registeration == false);
+        require(Voting_End == true);
+        Candidate storage x = Registered[msg.sender];
+        require(x.Registered == false);
+        x.Votes = 0;
+        x.Party = Party;
+        x.Address = msg.sender;
+        x.Registered = true;
+        candidate.push(msg.sender);
+        emit Registered_event(Party, msg.sender);
     }
 
-    modifier PartyRegistration_allowed(){
-        if(Stop_party_registeration == false && Voting_End == true){
-            _;
-        }
-    }
-
-    function Register_Candidate(string memory Party) public PartyRegistration_allowed {
-
-        if(msg.sender == Commissioner){
-            Candidate storage x = Registered[msg.sender];
-            require(x.Registered == false);
-            x.Votes = 0;
-            x.Party = Party;
-            x.Address = msg.sender;
-            x.Registered = true;
-            emit Registered_event(Party, msg.sender);
-        }else{
-            emit CommissionerErr();
-        }
-    }
-
-    function Register_Vote(address addr) public Voting_allowed returns (string memory){
-        if(msg.sender != Commissioner){
-            Voter storage x = Voters_registered[msg.sender];
-            Candidate storage y = Registered[addr];
-            if(x.Vote == false){
-                x.Vote = true;
-                x.Candidate = addr;
-                y.Votes += 1;
-                return "Voted Successfully";
-            }else{
-                return "You have already Voted";
-            }
-        }else{
-            return "Change Address, You are Commissioner right now";
-        }
+    function Register_Vote(address addr) public {
+        require(msg.sender != Commissioner);
+        require(Voting_End == false);
+        Voter storage x = Voters_registered[msg.sender];
+        require(x.Vote == false);
+        Candidate storage y = Registered[addr];
+        x.Vote = true;
+        x.Candidate = addr;
+        y.Votes += 1;
+        emit Voted(msg.sender);
     }
 
     function Start_voting() public {
+        require(Voting_End == true);
         require(msg.sender == Commissioner);
         Voting_End = false;
+        emit Voting_started();
     }
 
     function End_voting() public {
+        require(Voting_End == false);
         require(msg.sender == Commissioner);
         Voting_End = true;
+        Set_Winner();
+        emit Voting_stopped();
     }
 
-    function End_Party_Registration() internal {
+    function Set_Winner() private {
+        uint maxVotes;
+        address winner;
+        bool draw = false;
+        uint len = candidate.length;
+        for (uint i=0; i<len; i++) {
+            if(Registered[candidate[i]].Votes > maxVotes) {
+                maxVotes = Registered[candidate[i]].Votes;
+                winner = candidate[i];
+                draw = false;
+            }else if(Registered[candidate[i]].Votes == maxVotes && maxVotes != 0){
+                draw = true;
+            }
+        }
+
+        if(draw)
+          emit Draw();
+        else
+          emit Winner(winner);
+    }
+
+    function Start_Party_Registration() public {
+        require(Stop_party_registeration == true);
+        require(msg.sender == Commissioner);
+        Stop_party_registeration = false;
+        emit Registration_started();
+    }
+
+    function End_Party_Registration() public {
+        require(Stop_party_registeration == false);
         require(msg.sender == Commissioner);
         Stop_party_registeration = true;
+        emit Registration_started();
     }
-
 }
