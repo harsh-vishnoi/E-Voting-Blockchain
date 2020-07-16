@@ -1,29 +1,97 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link type="text/css" href="mystyle.css">
+    <!-- <meta charset="UTF-8"> -->
+    <link type="text/html" rel="stylesheet" href="./mystyle.css">
     <title>Voting Platform || Smart Contract </title>
   </head>
 
-  <body>
+  <style>
+    body {
+      font-family: Arial;
+      color: black;
+    }
 
+    .split {
+      height: 100%;
+      width: 50%;
+      position: fixed;
+      overflow: auto;
+    }
+
+    .centered {
+      text-align: center;
+    }
+
+    .left {
+      left: 0;
+    }
+
+    .right {
+      right: 0;
+    }
+
+    .head {
+      margin: 30px;
+    }
+
+    .switch {
+      padding: 5px;
+      width: 50%;
+    }
+
+    .message {
+      margin: 5px;
+    }
+
+    .error {
+      color: red;
+    }
+
+    .info {
+      font-weight: bolder;
+      color: green;
+    }
+
+    .button {
+      margin: 5px;
+      padding: 5px;
+    }
+
+  </style>
+
+  <body>
     <div class="split left">
       <div class="centered">
         <h2>E-Voting Platform</h2>
 
-          <h3>Register Candidates</h3>
-            <button id="Candidate_Button" onclick="App.Register_Button()">Register Candidate</button>
+          <Text id="vMessage" class="info">Voting has not been started yet</Text><br>
+          <Text id="rMessage" class="info">Registration has not been started yet</Text><br>
 
-          <h3>Caste Vote</h3>
-            <select id="select_tag">
-            </select>
-            <button id="Vote_Button" onclick="App.Vote()">Vote</button>
+          <h3 class="head">Register Candidates</h3>
+            <button id="Candidate_Button" class="button" onclick="App.Register_Button()">Register Candidate</button>
 
-          <br><br>
-            <text id="total_Votes">Total Votes  0</text>
+          <h3 class="head">Caste Vote</h3>
+          <select id="select_tag" class="switch"></select>
+          <button id="Vote_Button" class="button" onclick="App.Vote()">Vote</button>
 
-          <br><br>
-            <text id="error"></text>
+          <br>
+          <button id="Voting_Status" class="button" onclick="App.Switch_Vote()">
+              Switch Voting status
+          </button>
+
+          <button id="Registration_Status" class="button" onclick="App.Switch_Register()">
+              Switch Registration status
+          </button>
+
+          <br><text class="error" id="error"></text>
+
+          <br><text class="info" id="info"></text>
+
+          <br>
+          <text class="info" id="total_Votes">
+            Total Votes Registered 0
+          </text>
 
       </div>
     </div>
@@ -32,7 +100,9 @@
       <div class="centered">
         <h2>Register Candidates List</h2>
 
-        <ul id="theList" >
+        <br><Text id="RegList" class="error">There are no Registered Candidates</Text><br>
+
+        <ul id="theList">
         </ul>
 
       </div>

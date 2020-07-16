@@ -7,6 +7,7 @@ body {
   height: 100%;
   width: 50%;
   position: fixed;
+  overflow: auto;
 }
 
 .centered {
@@ -19,4 +20,31 @@ body {
 
 .right {
   right: 0;
+}
+
+.head {
+  margin: 30px;
+}
+
+.switch {
+  padding: 5px;
+  width: 50%;
+}
+
+.message {
+  margin: 5px;
+}
+
+.error {
+  color: red;
+}
+
+.info {
+  font-weight: bolder;
+  color: green;
+}
+
+.button {
+  margin: 5px;
+  padding: 5px;
 }

@@ -12,7 +12,7 @@ contract Vote_Contract {
     event Voting_started();
     event Registration_stopped();
     event Registration_started();
-    event Winner();
+    event Winner(address add);
     event Draw();
 
     struct Candidate{
@@ -52,6 +52,7 @@ contract Vote_Contract {
     function Register_Vote(address addr) public {
         require(msg.sender != Commissioner);
         require(Voting_End == false);
+        require(msg.sender != addr);
         Voter storage x = Voters_registered[msg.sender];
         require(x.Vote == false);
         Candidate storage y = Registered[addr];
@@ -108,6 +109,6 @@ contract Vote_Contract {
         require(Stop_party_registeration == false);
         require(msg.sender == Commissioner);
         Stop_party_registeration = true;
-        emit Registration_started();
+        emit Registration_stopped();
     }
 }
