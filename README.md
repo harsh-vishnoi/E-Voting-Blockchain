@@ -11,7 +11,11 @@ and authenticity.
 
 # Interface
 
+<<<<<<< HEAD
 ![Screenshot](WebAppIntro.png)
+=======
+![alt text](https://github.com/harsh-vishnoi/E-Voting-Blockchain-/tree/master/app/asset/WebAppIntro.png)
+>>>>>>> a6c20fd02b059e7ee3a6da8c1189d1fb614f7319
 
 # How to run this repository.
 
