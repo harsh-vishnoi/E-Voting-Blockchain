@@ -1,6 +1,6 @@
 # E-Voting-Blockchain
 
-This Projects aims at solving virtual voting issues. Whole virtual voting is run on ethereum blockchain tracking all executed transactions for maintaining transparency 
+This Projects aims at solving virtual voting issues. Whole virtual voting is run on ethereum blockchain tracking all executed transactions for maintaining transparency
 and authenticity.
 
 # Pre-Requisite
@@ -11,12 +11,12 @@ and authenticity.
 
 # Interface
 
-
+![alt text](https://github.com/harsh-vishnoi/E-Voting-Blockchain-/tree/master/app/asset/WebAppIntro.png?raw=true)
 
 # How to run this repository.
 
 - First clone this repository and make sure you are in the same repository.
-- Type npm install in terminal : It will install all dependencies mentioned in package.json file 
+- Type npm install in terminal : It will install all dependencies mentioned in package.json file
   ```sh
    npm install
   ```
@@ -24,7 +24,7 @@ and authenticity.
   ```sh
    truffle Compile
   ```
- - Type truffle migrate 
+ - Type truffle migrate
     ```sh
      truffle migrate
    ```
@@ -32,5 +32,5 @@ and authenticity.
     ```sh
     npm run dev
      ```
-   - Run localhost:8080 on chrome where metmask should be connected. 
+   - Run localhost:8080 on chrome where metmask should be connected.
    - This will run project and there after you can execute transactions and look at console to see messages.
